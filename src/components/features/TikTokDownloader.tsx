@@ -2,8 +2,8 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Download, Video, Music, LinkIcon } from 'lucide-react'
-import Input from '@/components/ui/Input'
-import Button from '@/components/ui/Button'
+import { Input } from '@/components/ui/Input'
+import { Button } from '@/components/ui/Button'
 import apiClient from '@/lib/apiClient'
 import toast from 'react-hot-toast'
 
@@ -25,10 +25,6 @@ export default function TikTokDownloader({ colorGradient }: { colorGradient: str
   const download = async () => {
     if (!data) return
     let downloadUrl = format === 'mp4' ? (data.videoWM || data.video) : data.audio
-    if (format === 'mp3' && !downloadUrl) {
-      toast.loading('Converting to MP3...', { id: 'conv' })
-      try { const res = await apiClient.post('/tiktok/audio', { videoUrl: data.video }); downloadUrl = res.data.url } catch { toast.error('MP3 conversion failed', { id: 'conv' }); return }
-    }
     const link = document.createElement('a')
     link.href = downloadUrl
     link.download = `tiktok_${data.id}.${format}`
