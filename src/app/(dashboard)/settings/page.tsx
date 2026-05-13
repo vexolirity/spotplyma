@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { useAuth } from '@/contexts/AuthContext'
 import { useTheme } from '@/contexts/ThemeContext'
 import { Bell, Shield, Volume2 } from 'lucide-react'
-import Button from '@/components/ui/Button'
+import { Button } from '@/components/ui/Button'
 import toast from 'react-hot-toast'
 
 export default function SettingsPage() {
