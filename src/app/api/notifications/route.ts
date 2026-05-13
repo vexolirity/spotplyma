@@ -1,26 +1,57 @@
 import { NextRequest, NextResponse } from 'next/server'
-import db from '@/lib/db'
-import { v4 as uuidv4 } from 'uuid'
 import { verifyJWT } from '@/lib/jwt'
+import { getNotifications, addNotification, markNotificationRead, markAllNotificationsRead } from '@/lib/userHelpers'
 
 export async function GET(req: NextRequest) {
   const token = req.cookies.get('token')?.value
-  if (!token) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  let userId: string
-  try { const decoded: any = await verifyJWT(token); userId = decoded.id } catch { return NextResponse.json({ error: 'Invalid token' }, { status: 401 }) }
-  const stmt = db.prepare('SELECT * FROM notifications WHERE userId = ? ORDER BY createdAt DESC LIMIT 50')
-  const rows = stmt.all(userId)
-  return NextResponse.json(rows)
+  if (!token) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
+  
+  try {
+    const decoded: any = await verifyJWT(token)
+    const notifs = getNotifications(decoded.id)
+    return NextResponse.json(notifs)
+  } catch {
+    return NextResponse.json({ error: 'Invalid token' }, { status: 401 })
+  }
 }
 
 export async function POST(req: NextRequest) {
   const token = req.cookies.get('token')?.value
-  if (!token) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  let userId: string
-  try { const decoded: any = await verifyJWT(token); userId = decoded.id } catch { return NextResponse.json({ error: 'Invalid token' }, { status: 401 }) }
-  const { title, message, type } = await req.json()
-  const id = uuidv4()
-  const stmt = db.prepare('INSERT INTO notifications (id, userId, title, message, type) VALUES (?, ?, ?, ?, ?)')
-  stmt.run(id, userId, title, message, type || 'info')
-  return NextResponse.json({ id, userId, title, message, type, read: 0, createdAt: Date.now() })
+  if (!token) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
+  
+  try {
+    const decoded: any = await verifyJWT(token)
+    const { title, message, type } = await req.json()
+    addNotification(decoded.id, { title, message, type: type || 'info' })
+    return NextResponse.json({ success: true })
+  } catch {
+    return NextResponse.json({ error: 'Invalid token' }, { status: 401 })
+  }
+}
+
+export async function PATCH(req: NextRequest) {
+  const token = req.cookies.get('token')?.value
+  if (!token) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
+  
+  try {
+    const decoded: any = await verifyJWT(token)
+    const { searchParams } = new URL(req.url)
+    const notifId = searchParams.get('id')
+    const action = searchParams.get('action')
+    
+    if (action === 'read-all') {
+      markAllNotificationsRead(decoded.id)
+    } else if (notifId) {
+      markNotificationRead(decoded.id, notifId)
+    }
+    return NextResponse.json({ success: true })
+  } catch {
+    return NextResponse.json({ error: 'Invalid token' }, { status: 401 })
+  }
 }
