@@ -3,8 +3,8 @@ import { useState } from 'react'
 import { useAuth } from '@/contexts/AuthContext'
 import { motion } from 'framer-motion'
 import { User, Mail, Calendar, Camera } from 'lucide-react'
-import Button from '@/components/ui/Button'
-import Input from '@/components/ui/Input'
+import { Button } from '@/components/ui/Button'
+import { Input } from '@/components/ui/Input'
 import toast from 'react-hot-toast'
 
 export default function ProfilePage() {
