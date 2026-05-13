@@ -1,0 +1,2 @@
+export const formatDuration = (sec: number) => `${Math.floor(sec/60)}:${(sec%60).toString().padStart(2,'0')}`
+export const formatNumber = (num: number) => num >= 1e6 ? (num/1e6).toFixed(1)+'M' : num >= 1e3 ? (num/1e3).toFixed(1)+'K' : num.toString()

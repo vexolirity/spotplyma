@@ -1,0 +1,4 @@
+JWT_SECRET=261011
+NEOXR_API_KEY=a7k3m9x2p4
+NEOXR_API_BASE=https://api.neoxr.eu/api
+NEXT_PUBLIC_APP_URL=http://localhost:3000

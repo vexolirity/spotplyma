@@ -1,0 +1,12 @@
+version: '3.8'
+services:
+  app:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - JWT_SECRET=spotplyma_secret
+      - NEOXR_API_KEY=a7k3m9x2p4
+      - NEOXR_API_BASE=https://api.neoxr.eu/api
