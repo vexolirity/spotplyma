@@ -4,8 +4,8 @@ import { useAuth } from '@/contexts/AuthContext'
 import { motion } from 'framer-motion'
 import { Eye, EyeOff, UserPlus, Mail, Lock, Sparkles } from 'lucide-react'
 import Link from 'next/link'
-import Button from '@/components/ui/Button'
-import Input from '@/components/ui/Input'
+import { Button } from '@/components/ui/Button'
+import { Input } from '@/components/ui/Input'
 
 export default function RegisterPage() {
   const { register } = useAuth()
