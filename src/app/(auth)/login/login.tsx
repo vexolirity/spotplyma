@@ -4,8 +4,8 @@ import { useAuth } from '@/contexts/AuthContext'
 import { motion } from 'framer-motion'
 import { Eye, EyeOff, LogIn, UserPlus, Sparkles } from 'lucide-react'
 import Link from 'next/link'
-import Button from '@/components/ui/Button'
-import Input from '@/components/ui/Input'
+import { Button } from '@/components/ui/Button'
+import { Input } from '@/components/ui/Input'
 
 export default function LoginPage() {
   const { login, guestLogin } = useAuth()
