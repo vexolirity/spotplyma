@@ -1,9 +1,9 @@
 'use client'
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { Search, Play, Download, Pause, Heart } from 'lucide-react'
-import Input from '@/components/ui/Input'
-import Button from '@/components/ui/Button'
+import { Search, Play, Download, Heart } from 'lucide-react'
+import { Input } from '@/components/ui/Input'
+import { Button } from '@/components/ui/Button'
 import Skeleton from '@/components/ui/Skeleton'
 import apiClient from '@/lib/apiClient'
 import toast from 'react-hot-toast'
@@ -12,8 +12,6 @@ export default function SpotifySearch({ colorGradient }: { colorGradient: string
   const [query, setQuery] = useState('')
   const [tracks, setTracks] = useState<any[]>([])
   const [loading, setLoading] = useState(false)
-  const [playingId, setPlayingId] = useState<string | null>(null)
-  const [audio, setAudio] = useState<HTMLAudioElement | null>(null)
 
   const search = async () => {
     if (!query.trim()) return toast.error('Enter song name')
@@ -25,15 +23,12 @@ export default function SpotifySearch({ colorGradient }: { colorGradient: string
   }
 
   const playTrack = async (track: any) => {
-    if (audio) { audio.pause(); audio.currentTime = 0; setPlayingId(null) }
     try {
       const res = await apiClient.get(`/play?q=${encodeURIComponent(track.title + ' ' + track.artist)}`)
       if (res.data?.data?.url) {
-        const newAudio = new Audio(res.data.data.url)
-        newAudio.play()
-        setAudio(newAudio)
-        setPlayingId(track.id)
-        newAudio.onended = () => setPlayingId(null)
+        const audio = new Audio(res.data.data.url)
+        audio.play()
+        toast.success(`Playing: ${track.title}`)
       } else toast.error('No playable version')
     } catch { toast.error('Play failed') }
   }
