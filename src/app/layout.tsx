@@ -12,7 +12,11 @@ export const metadata: Metadata = {
   description: 'Download music, videos from Spotify, TikTok, YouTube',
 }
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${inter.variable} ${spaceGrotesk.variable} font-sans`}>
@@ -21,7 +25,17 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <div className="fixed inset-0 animated-grid opacity-20 pointer-events-none" />
             <div className="relative z-10">{children}</div>
           </div>
-          <Toaster position="top-right" toastOptions={{ duration: 4000, style: { background: '#1a1a1a', color: '#fff', border: '1px solid rgba(0,255,255,0.2)' } }} />
+          <Toaster 
+            position="top-right"
+            toastOptions={{
+              duration: 4000,
+              style: {
+                background: '#1a1a1a',
+                color: '#fff',
+                border: '1px solid rgba(0, 255, 255, 0.2)',
+              },
+            }}
+          />
         </Providers>
       </body>
     </html>
