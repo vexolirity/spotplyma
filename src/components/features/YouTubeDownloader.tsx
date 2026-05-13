@@ -2,8 +2,8 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Download, Video, Music, Search } from 'lucide-react'
-import Input from '@/components/ui/Input'
-import Button from '@/components/ui/Button'
+import { Input } from '@/components/ui/Input'
+import { Button } from '@/components/ui/Button'
 import apiClient from '@/lib/apiClient'
 import toast from 'react-hot-toast'
 
